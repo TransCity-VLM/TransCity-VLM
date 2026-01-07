@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>An Interpretable Vision–Language Foundation Model for Sustainable Smart Cities with Physical World Data-to-Reasoning Traceability</title>
+
+  <!-- keep the same filenames -->
+  <link rel="stylesheet" href="css.css"/>
+  <link rel="stylesheet" href="iconize.css"/>
+  <link rel="stylesheet" href="project.css"/>
+
+  <!-- Optional -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<script>
+  window.addEventListener('load', () => {
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+    if (window.prettyPrint) window.prettyPrint();
+
+    const btn = document.getElementById('copyBibBtn');
+    const block = document.getElementById('bibtexBlock');
+    const hint = document.getElementById('copyHint');
+
+    if (btn && block) {
+      btn.addEventListener('click', async () => {
+        const text = block.innerText.trim();
+        btn.disabled = true;
+        hint.textContent = '';
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          hint.textContent = 'Copied!';
+        } catch (e) {
+          hint.textContent = 'Copy failed. Please select and copy manually.';
+        } finally {
+          setTimeout(() => {
+            btn.disabled = false;
+            setTimeout(() => { hint.textContent = ''; }, 2000);
+          }, 250);
+        }
+      });
+    }
+  });
+</script>
+
+<body>
+  <!-- Top gray header (full width) -->
+  <div class="paper-header">
+    <div class="paper-header-inner hero">
+      <div class="brand-logos">
+        <img class="brand-logo" src="img/TransCityLogo.svg" alt="TransCity Logo" />
+      </div>
+
+      <div class="hero-title">TransCity: Next-Generation Smart City Foundation Model</div>
+      <div class="hero-subtitle">Understanding cities through physical-world dynamics.</div>
+
+      <!-- <div class="paper-authors">
+        <span>Xinyue Guo<sup>*</sup> <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Sen Shen<sup>*</sup> <sup>2</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Songyi Cui <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Haoru Tan <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Zhifei Liu <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Yuji Cao <sup>2</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Chenglin Yu <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span>Zhixuan Xiao <sup>3</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span><a class="author-link" href="https://dongkunhan.com" target="_blank" rel="noopener">Dongkun Han</a> <sup>2</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span><a class="author-link" href="https://scholar.google.com/citations?user=bxCdTCMAAAAJ" target="_blank" rel="noopener">Yue Chen</a> <sup>2</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span><a class="author-link" href="https://scholar.google.com/citations?user=bGn0uacAAAAJ" target="_blank" rel="noopener">Xiaojuan Qi</a> <sup>1</sup></span>
+        <span>&nbsp;&nbsp;</span>
+        <span><a class="author-link" href="https://scholar.google.com/citations?user=KfDl2DIAAAAJ" target="_blank" rel="noopener">Ray Y. Zhong</a><sup>†</sup> <sup>1</sup></span>
+      </div> -->
+
+      <div class="paper-affiliations" style="display: flex; justify-content: center; gap: 20px;">
+        <div><sup>1</sup> The University of Hongkong</div>
+        <div><sup>2</sup> The Chinese University of Hongkong</div>
+        <div><sup>3</sup> Tsinghua University</div>
+      </div>
+
+
+      <!-- <div class="paper-email" style="font-size: 0.85em;">
+        <span><sup>*</sup> Equal contribution.</span>
+        <span>&nbsp;&nbsp;</span>
+        <span><sup>†</sup> Corresponding author.</span>
+      </div> -->
+
+      <div class="hero-nav">
+        <a href="#traceability">Data Traceability</a>
+        <a href="#expert">Expert Interpretability</a>
+        <a href="#momexp">MoMExp Interpretability</a>
+        <a href="#agents">Agents Interpretability</a>
+        <a href="#safety">Safety Control</a>
+        <a href="#resources">Links</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main white paper (center) -->
+  <div class="container">
+    <h2>Abstract</h2>
+    <p>
+      Sustainable smart cities represent a long-term vision for human development. Yet modern cities generate massive, heterogeneous, and physics-driven multimodal data whose complexity makes large-scale understanding extremely challenging. Although multimodal large language models offer new analytical possibilities, they ultimately learn from linguistic causal logic rather than the physical laws that govern real urban systems. This fundamental mismatch leaves them ill-equipped to reason about and predict the actual dynamics of cities. Here we present TransCity, a multimodal foundation model for sustainable smart cities that learns directly from the physical spatio-temporal world rather than symbolic linguistic descriptions. Trained on over 21 million city-days of multimodal data collected over the past decade, including NASA satellite imagery, ground-sensor streams, and urban text records, TransCity builds a unified representation of urban mobility, infrastructure usage, and system dynamics. Powered by a multi-expert architecture with vision–language grounding and dedicated Modality Meta Nets for structured feature extraction, the model supports flexible prediction, analysis, and decision support across diverse urban tasks. Across evaluations conducted on diverse real-world datasets from cities worldwide, TransCity exceeds the predictive and analytical performance of frontier foundation models such as ChatGPT and Gemini. Empirical results further show that, at city-edge regions with imbalanced sensor data, our model achieves around 40% improvement in prediction accuracy over the baselines, promoting social equity in smart city development. The pretrained model is publicly available, enabling broad fine-tuning and deployment for real-world smart city applications.
+    </p>
+
+    <!-- ============ Traceability ============ -->
+    <section class="section" id="traceability">
+      <h2>Data-to-Reasoning Traceability</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            TransCity is trained to construct chain-of-thought reasoning over data retrieved by agents.
+            Through the task aware mixture-of-experts (TAME) architecture, specialized experts are dynamically selected to analyze evidence.
+            Each reasoning step is explicitly linked to its underlying data sources, with original dataset references and database links preserved in the final answer.
+          </p>
+        </div>
+
+        <figure class="section-figure fig-top">
+          <img src="img/Data-To-Reasoning.svg" alt="Data-to-Reasoning Traceability diagram" />
+          <figcaption>
+            <span class="fig-label">Fig. 1:</span> Each reasoning step is linked to its supporting evidence
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ Spatiotemporal Learning ============ -->
+    <section class="section" id="stlearning">
+      <h2>Spatiotemporal Learning</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            TransCity understands urban dynamics through its Agent System, which retrieves nearby sensor data based on the sensor topology.
+            The system processes this data, along with the user query, using MoMExp Nets for feature extraction.
+            These features are then fed into the core model, allowing it to capture dependencies and better predict urban system behavior.
+          </p>
+        </div>
+
+        <figure class="section-figure fig-top">
+          <img src="img/STLearning.svg" alt="Spatiotemporal learning diagram" />
+          <figcaption>
+            <span class="fig-label">Fig. 3:</span> Spatiotemporal learning via topology-aware retrieval and MoMExp feature extraction
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ Expert Interpretability ============ -->
+    <section class="section" id="expert">
+      <h2>Expert-Level Interpretability</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            TransCity provides expert-level interpretability through its TAME mixture-of-experts design.
+            A dynamic router assigns different inputs to specialized experts, and the resulting expert activations exhibit clear modality preferences.
+          </p>
+          <p>
+            Expert outputs are fused through attention, producing step-wise attention scores that link each reasoning step to the most influential evidence.
+            We can quantify how different modalities (e.g., traffic signals, energy measurements, POIs, weather, and visual inputs) contribute to the final answer.
+          </p>
+        </div>
+
+        <figure class="section-figure fig-top">
+          <img src="img/Expert-Interpretability.svg" alt="Expert-level interpretability diagram" />
+          <figcaption>
+            <span class="fig-label">Fig. 2:</span> Different modalities tend to be handled by different experts
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ MoMExp Nets ============ -->
+    <section class="section" id="momexp">
+      <h2>MoMExp Nets Interpretability</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            We analyze the attention patterns of the MoMExp Nets and observe clear region-aware expert behaviors across different urban areas.
+            When the user query targets different parts of the city, the expert networks selectively focus on different modalities and urban signals rather than applying uniform representations.
+          </p>
+          <p>
+            In high-flow urban areas, MoMExp Nets tend to emphasize commercial buildings, office districts, and mobility-related data.
+            In low-flow or exurban regions, attention shifts toward schools, residential areas, and physical facilities with stronger temporal locality.
+          </p>
+        </div>
+
+        <figure class="section-figure fig-top">
+          <img src="img/mapExplain.svg" alt="Region-aware interpretability map" />
+          <figcaption>
+            <span class="fig-label">Fig. 3:</span> Experts adapt attention by region and activity intensity
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ Agent System Interpretability ============ -->
+    <section class="section" id="agents">
+      <h2>Agent System Interpretability</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            TransCity makes the agent pipeline interpretable by compiling each user question into an explicit executable plan DAG.
+            Each node corresponds to a single-purpose agent, and the orchestrator schedules runnable steps with dependency awareness 
+            and parallel execution. Every step writes outputs into a shared context store under a stable key, together with provenance metadata.
+          </p>
+          <p>
+            This design enables end-to-end auditability: every evidence block used in the final answer can be traced back to the plan step
+            that produced it, the upstream keys it consumed, and the intermediate states recorded in the store. When the system detects
+            evidence alignment deficits, it triggers a bounded refinement loop that performs additional retrieval and verification while logging
+            iteration identifiers for step-by-step replay. A spatial anchoring rule further prevents semantic drift by keeping baseline city signals
+            sampled at the user anchor rather than the incident region.
+          </p>
+        </div>
+
+        <figure class="section-figure">
+            <img src="img/agent-framework-A1.svg" alt="Agent System Interpretability diagram" />
+          </object>
+          <figcaption>
+            <span class="fig-label">Fig. 4:</span> Agent-driven evidence workflow with an explicit plan DAG and traceable records
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ============ Safety Control System ============ -->
+    <section class="section" id="safety">
+      <h2>Safety Control System</h2>
+
+      <div class="section-grid">
+        <div class="section-text">
+          <p>
+            TransCity incorporates a system-level Safety Control System that governs both user queries and agent tool execution.
+            For each incoming user query, the system performs a safety assessment and routes the request through different control paths, including direct allowance,
+            constrained execution, abstraction-only responses, or refusal with a standardized template.
+          </p>
+          <p>
+            The same safety mechanism is applied to agent systems and tool usage.
+            Agent plans may be fully executed, executed under constraints, or blocked and recalled by the planner based on safety evaluation,
+            with feedback collected for iterative refinement.
+          </p>
+        </div>
+
+        <figure class="section-figure fig-top">
+          <img src="img/SafetyControlSystem.svg" alt="Safety control system diagram" />
+          <figcaption>
+            <span class="fig-label">Fig. 5:</span> Unified safety control across model and tools
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ Resources ============ -->
+    <section class="section" id="resources">
+      <h2>Links</h2>
+
+      <div class="cards">
+        <a class="card" href="https://huggingface.co/datasets/TransCity-VLM/TransCity-VLM-dataset" target="_blank" rel="noopener">
+          <img class="card-icon" src="img/huggingface_logo.svg" alt="Hugging Face" />
+          <div class="card-text">
+            <div class="card-title">Data</div>
+            <div class="card-sub">Dataset link</div>
+          </div>
+        </a>
+
+        <a class="card" href="http://transcity-vlm.com" target="_blank" rel="noopener">
+          <img class="card-icon" src="img/robotLogo.svg" alt="TransCity Website" />
+          <div class="card-text">
+            <div class="card-title">Website</div>
+            <div class="card-sub">Main project page</div>
+          </div>
+        </a>
+
+        <a class="card" href="https://github.com/Josephguogxy/TransCity-VLM" target="_blank" rel="noopener">
+          <img class="card-icon" src="img/github.png" alt="GitHub" />
+          <div class="card-text">
+            <div class="card-title">Code</div>
+            <div class="card-sub">GitHub repository</div>
+          </div>
+        </a>
+      </div>
+
+    </section>
+
+    <section class="section" id="citation">
+      <div class="citation-head">
+        <h2>Citation</h2>
+
+        <button class="copy-btn" type="button" id="copyBibBtn" aria-label="Copy BibTeX">
+          Copy BibTeX
+        </button>
+      </div>
+
+      <pre class="prettyprint" id="bibtexBlock"><code>@article{transcity2025,
+      title   = {TransCity: Next-Generation Smart City Foundation Model},
+      author  = {TODO},
+      journal = {TODO},
+      year    = {2025},
+      note    = {TODO}
+    }</code></pre>
+
+      <div class="copy-hint" id="copyHint" aria-live="polite"></div>
+    </section>
+
+    <div class="footer">
+      <div>© <span id="year"></span> Your Lab. Built with GitHub Pages.</div>
+    </div>
+  </div>
+
+  <script src="prettify.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const y = document.getElementById('year');
+      if (y) y.textContent = new Date().getFullYear();
+      if (window.prettyPrint) window.prettyPrint();
+    });
+  </script>
+</body>
+
+
+</html>
